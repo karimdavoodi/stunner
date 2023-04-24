@@ -19,6 +19,7 @@ type UDPScannerOpts struct {
 	Username        string
 	Password        string
 	UseTLS          bool
+	TlsVerify       bool
 	Timeout         time.Duration
 	Log             *logrus.Logger
 	CommunityString string
@@ -86,7 +87,7 @@ func UDPScanner(opts UDPScannerOpts) error {
 }
 
 func snmpScan(opts UDPScannerOpts, ip netip.Addr, port uint16, community string) error {
-	remote, realm, nonce, err := internal.SetupTurnConnection(opts.Log, opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout, ip, port, opts.Username, opts.Password)
+	remote, realm, nonce, err := internal.SetupTurnConnection(opts.Log, opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout, ip, port, opts.Username, opts.Password)
 	if err != nil {
 		// ignore timeouts
 		if errors.Is(err, helper.ErrTimeout) {
@@ -170,7 +171,7 @@ func snmpScan(opts UDPScannerOpts, ip netip.Addr, port uint16, community string)
 }
 
 func dnsScan(opts UDPScannerOpts, ip netip.Addr, port uint16, dnsName string) error {
-	remote, realm, nonce, err := internal.SetupTurnConnection(opts.Log, opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout, ip, port, opts.Username, opts.Password)
+	remote, realm, nonce, err := internal.SetupTurnConnection(opts.Log, opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout, ip, port, opts.Username, opts.Password)
 	if err != nil {
 		// ignore timeouts
 		if errors.Is(err, helper.ErrTimeout) {

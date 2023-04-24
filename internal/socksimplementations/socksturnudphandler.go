@@ -25,6 +25,7 @@ type SocksTurnUDPHandler struct {
 	channelNumber          []byte
 	Timeout                time.Duration
 	UseTLS                 bool
+	TlsVerify              bool
 	DropNonPrivateRequests bool
 	Log                    *logrus.Logger
 }
@@ -58,7 +59,7 @@ func (s *SocksTurnUDPHandler) PreHandler(request socks.Request) (io.ReadWriteClo
 		return nil, &socks.Error{Reason: socks.RequestReplyHostUnreachable, Err: fmt.Errorf("dropping non private connection to %s:%d", target.String(), request.DestinationPort)}
 	}
 
-	remote, realm, nonce, err := internal.SetupTurnConnection(s.Log, s.ConnectProtocol, s.Server, s.UseTLS, s.Timeout, target, request.DestinationPort, s.TURNUsername, s.TURNPassword)
+	remote, realm, nonce, err := internal.SetupTurnConnection(s.Log, s.ConnectProtocol, s.Server, s.UseTLS, s.TlsVerify, s.Timeout, target, request.DestinationPort, s.TURNUsername, s.TURNPassword)
 	if err != nil {
 		return nil, &socks.Error{Reason: socks.RequestReplyHostUnreachable, Err: err}
 	}

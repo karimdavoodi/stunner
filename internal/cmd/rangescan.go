@@ -18,6 +18,7 @@ type RangeScanOpts struct {
 	Username   string
 	Password   string
 	UseTLS     bool
+	TlsVerify  bool
 	Timeout    time.Duration
 	Log        *logrus.Logger
 }
@@ -133,7 +134,7 @@ func RangeScan(opts RangeScanOpts) error {
 }
 
 func scanTCP(opts RangeScanOpts, targetHost netip.Addr, targetPort uint16) (bool, error) {
-	conn, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout)
+	conn, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout)
 	if err != nil {
 		return false, err
 	}
@@ -185,7 +186,7 @@ func scanTCP(opts RangeScanOpts, targetHost netip.Addr, targetPort uint16) (bool
 }
 
 func scanUDP(opts RangeScanOpts, targetHost netip.Addr, targetPort uint16) (bool, error) {
-	remote, _, _, err := internal.SetupTurnConnection(opts.Log, opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout, targetHost, targetPort, opts.Username, opts.Password)
+	remote, _, _, err := internal.SetupTurnConnection(opts.Log, opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout, targetHost, targetPort, opts.Username, opts.Password)
 	if err != nil {
 		return false, err
 	}

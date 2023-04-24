@@ -17,6 +17,7 @@ type SocksOpts struct {
 	Username   string
 	Password   string
 	UseTLS     bool
+	TlsVerify  bool
 	Timeout    time.Duration
 	Log        *logrus.Logger
 	Listen     string

@@ -17,6 +17,7 @@ type MemoryleakOpts struct {
 	Username   string
 	Password   string
 	UseTLS     bool
+	TlsVerify  bool
 	Timeout    time.Duration
 	Log        *logrus.Logger
 	TargetHost netip.Addr
@@ -61,7 +62,7 @@ func MemoryLeak(opts MemoryleakOpts) error {
 		return err
 	}
 
-	remote, realm, nonce, err := internal.SetupTurnConnection(opts.Log, opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout, opts.TargetHost, opts.TargetPort, opts.Username, opts.Password)
+	remote, realm, nonce, err := internal.SetupTurnConnection(opts.Log, opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout, opts.TargetHost, opts.TargetPort, opts.Username, opts.Password)
 	if err != nil {
 		return err
 	}

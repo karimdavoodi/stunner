@@ -11,7 +11,7 @@ import (
 	"github.com/pion/dtls/v2"
 )
 
-func Connect(protocol string, turnServer string, useTLS bool, timeout time.Duration) (net.Conn, error) {
+func Connect(protocol string, turnServer string, useTLS bool, tlsVerify bool, timeout time.Duration) (net.Conn, error) {
 	if !useTLS {
 		// non TLS connection
 		conn, err := net.DialTimeout(protocol, turnServer, timeout)
@@ -28,7 +28,7 @@ func Connect(protocol string, turnServer string, useTLS bool, timeout time.Durat
 			Timeout: timeout,
 		}
 		conn, err := tls.DialWithDialer(&d, protocol, turnServer, &tls.Config{
-			InsecureSkipVerify: true,
+			InsecureSkipVerify: !tlsVerify,
 		})
 		if err != nil {
 			return nil, fmt.Errorf("error on establishing a TLS connection to the server: %w", err)
@@ -42,7 +42,7 @@ func Connect(protocol string, turnServer string, useTLS bool, timeout time.Durat
 		ctx, cancel := context.WithTimeout(context.Background(), timeout)
 		defer cancel()
 		dtlsConn, err := dtls.ClientWithContext(ctx, conn, &dtls.Config{
-			InsecureSkipVerify: true,
+			InsecureSkipVerify: !tlsVerify,
 		})
 		if err != nil {
 			return nil, fmt.Errorf("error on establishing a DTLS connection to the server: %w", err)

@@ -16,9 +16,9 @@ import (
 //	ConnectionBind
 //
 // it returns the controlConnection, the dataConnection and an error
-func SetupTurnTCPConnection(logger DebugLogger, turnServer string, useTLS bool, timeout time.Duration, targetHost netip.Addr, targetPort uint16, username, password string) (*net.TCPConn, *net.TCPConn, error) {
+func SetupTurnTCPConnection(logger DebugLogger, turnServer string, useTLS bool, tlsVerify bool, timeout time.Duration, targetHost netip.Addr, targetPort uint16, username, password string) (*net.TCPConn, *net.TCPConn, error) {
 	// protocol needs to be tcp
-	controlConnectionRaw, err := Connect("tcp", turnServer, useTLS, timeout)
+	controlConnectionRaw, err := Connect("tcp", turnServer, useTLS, tlsVerify, timeout)
 	if err != nil {
 		return nil, nil, fmt.Errorf("error on establishing control connection: %w", err)
 	}
@@ -73,7 +73,7 @@ func SetupTurnTCPConnection(logger DebugLogger, turnServer string, useTLS bool, 
 
 	connectionID := connectResponse.GetAttribute(AttrConnectionID).Value
 
-	dataConnectionRaw, err := Connect("tcp", turnServer, useTLS, timeout)
+	dataConnectionRaw, err := Connect("tcp", turnServer, useTLS, tlsVerify, timeout)
 	if err != nil {
 		return nil, nil, fmt.Errorf("error on establishing data connection: %w", err)
 	}

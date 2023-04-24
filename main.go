@@ -54,6 +54,7 @@ func main() {
 					&cli.BoolFlag{Name: "debug", Aliases: []string{"d"}, Value: false, Usage: "enable debug output"},
 					&cli.StringFlag{Name: "turnserver", Aliases: []string{"s"}, Required: true, Usage: "turn server to connect to in the format host:port"},
 					&cli.BoolFlag{Name: "tls", Value: false, Usage: "Use TLS/DTLS on connecting to the STUN or TURN server"},
+					&cli.BoolFlag{Name: "tlsverify", Value: false, Usage: "Verify the server's certificate"},
 					&cli.StringFlag{Name: "protocol", Value: "udp", Usage: "protocol to use when connecting to the TURN server. Supported values: tcp and udp"},
 					&cli.DurationFlag{Name: "timeout", Value: 1 * time.Second, Usage: "connect timeout to turn server"},
 				},
@@ -66,11 +67,13 @@ func main() {
 				Action: func(c *cli.Context) error {
 					turnServer := c.String("turnserver")
 					useTLS := c.Bool("tls")
+					tlsVerify := c.Bool("tlsverify")
 					protocol := c.String("protocol")
 					timeout := c.Duration("timeout")
 					return cmd.Info(cmd.InfoOpts{
 						TurnServer: turnServer,
 						UseTLS:     useTLS,
+						TlsVerify:  tlsVerify,
 						Protocol:   protocol,
 						Log:        log,
 						Timeout:    timeout,
@@ -88,6 +91,7 @@ func main() {
 					&cli.BoolFlag{Name: "debug", Aliases: []string{"d"}, Value: false, Usage: "enable debug output"},
 					&cli.StringFlag{Name: "turnserver", Aliases: []string{"s"}, Required: true, Usage: "turn server to connect to in the format host:port"},
 					&cli.BoolFlag{Name: "tls", Value: false, Usage: "Use TLS/DTLS on connecting to the STUN or TURN server"},
+					&cli.BoolFlag{Name: "tlsverify", Value: false, Usage: "Verify the server's certificate"},
 					&cli.StringFlag{Name: "protocol", Value: "udp", Usage: "protocol to use when connecting to the TURN server. Supported values: tcp and udp"},
 					&cli.DurationFlag{Name: "timeout", Value: 1 * time.Second, Usage: "connect timeout to turn server"},
 					&cli.StringFlag{Name: "username", Aliases: []string{"u"}, Required: true, Usage: "username for the turn server"},
@@ -102,6 +106,7 @@ func main() {
 				Action: func(c *cli.Context) error {
 					turnServer := c.String("turnserver")
 					useTLS := c.Bool("tls")
+					tlsVerify := c.Bool("tlsverify")
 					protocol := c.String("protocol")
 					timeout := c.Duration("timeout")
 					username := c.String("username")
@@ -109,6 +114,7 @@ func main() {
 					return cmd.BruteTransports(cmd.BruteTransportOpts{
 						TurnServer: turnServer,
 						UseTLS:     useTLS,
+						TlsVerify:  tlsVerify,
 						Protocol:   protocol,
 						Log:        log,
 						Timeout:    timeout,
@@ -127,6 +133,7 @@ func main() {
 					&cli.BoolFlag{Name: "debug", Aliases: []string{"d"}, Value: false, Usage: "enable debug output"},
 					&cli.StringFlag{Name: "turnserver", Aliases: []string{"s"}, Required: true, Usage: "turn server to connect to in the format host:port"},
 					&cli.BoolFlag{Name: "tls", Value: false, Usage: "Use TLS/DTLS on connecting to the STUN or TURN server"},
+					&cli.BoolFlag{Name: "tlsverify", Value: false, Usage: "Verify the server's certificate"},
 					&cli.StringFlag{Name: "protocol", Value: "udp", Usage: "protocol to use when connecting to the TURN server. Supported values: tcp and udp"},
 					&cli.DurationFlag{Name: "timeout", Value: 1 * time.Second, Usage: "connect timeout to turn server"},
 					&cli.StringFlag{Name: "username", Aliases: []string{"u"}, Required: true, Usage: "username for the turn server"},
@@ -141,6 +148,7 @@ func main() {
 				Action: func(c *cli.Context) error {
 					turnServer := c.String("turnserver")
 					useTLS := c.Bool("tls")
+					tlsVerify := c.Bool("tlsverify")
 					protocol := c.String("protocol")
 					timeout := c.Duration("timeout")
 					username := c.String("username")
@@ -148,6 +156,7 @@ func main() {
 					return cmd.BruteForce(cmd.BruteforceOpts{
 						TurnServer: turnServer,
 						UseTLS:     useTLS,
+						TlsVerify:  tlsVerify,
 						Protocol:   protocol,
 						Log:        log,
 						Timeout:    timeout,
@@ -170,6 +179,7 @@ func main() {
 					&cli.BoolFlag{Name: "debug", Aliases: []string{"d"}, Value: false, Usage: "enable debug output"},
 					&cli.StringFlag{Name: "turnserver", Aliases: []string{"s"}, Required: true, Usage: "turn server to connect to in the format host:port"},
 					&cli.BoolFlag{Name: "tls", Value: false, Usage: "Use TLS/DTLS on connecting to the STUN or TURN server"},
+					&cli.BoolFlag{Name: "tlsverify", Value: false, Usage: "Verify the server's certificate"},
 					&cli.StringFlag{Name: "protocol", Value: "udp", Usage: "protocol to use when connecting to the TURN server. Supported values: tcp and udp"},
 					&cli.DurationFlag{Name: "timeout", Value: 1 * time.Second, Usage: "connect timeout to turn server"},
 					&cli.StringFlag{Name: "username", Aliases: []string{"u"}, Required: true, Usage: "username for the turn server"},
@@ -186,6 +196,7 @@ func main() {
 				Action: func(c *cli.Context) error {
 					turnServer := c.String("turnserver")
 					useTLS := c.Bool("tls")
+					tlsVerify := c.Bool("tlsverify")
 					protocol := c.String("protocol")
 					timeout := c.Duration("timeout")
 					username := c.String("username")
@@ -212,6 +223,7 @@ func main() {
 					return cmd.MemoryLeak(cmd.MemoryleakOpts{
 						TurnServer: turnServer,
 						UseTLS:     useTLS,
+						TlsVerify:  tlsVerify,
 						Protocol:   protocol,
 						Log:        log,
 						Timeout:    timeout,
@@ -233,6 +245,7 @@ func main() {
 					&cli.BoolFlag{Name: "debug", Aliases: []string{"d"}, Value: false, Usage: "enable debug output"},
 					&cli.StringFlag{Name: "turnserver", Aliases: []string{"s"}, Required: true, Usage: "turn server to connect to in the format host:port"},
 					&cli.BoolFlag{Name: "tls", Value: false, Usage: "Use TLS/DTLS on connecting to the STUN or TURN server"},
+					&cli.BoolFlag{Name: "tlsverify", Value: false, Usage: "Verify the server's certificate"},
 					&cli.StringFlag{Name: "protocol", Value: "udp", Usage: "protocol to use when connecting to the TURN server. Supported values: tcp and udp"},
 					&cli.DurationFlag{Name: "timeout", Value: 1 * time.Second, Usage: "connect timeout to turn server"},
 					&cli.StringFlag{Name: "username", Aliases: []string{"u"}, Required: true, Usage: "username for the turn server"},
@@ -247,6 +260,7 @@ func main() {
 				Action: func(c *cli.Context) error {
 					turnServer := c.String("turnserver")
 					useTLS := c.Bool("tls")
+					tlsVerify := c.Bool("tlsverify")
 					protocol := c.String("protocol")
 					timeout := c.Duration("timeout")
 					username := c.String("username")
@@ -254,6 +268,7 @@ func main() {
 					return cmd.RangeScan(cmd.RangeScanOpts{
 						TurnServer: turnServer,
 						UseTLS:     useTLS,
+						TlsVerify:  tlsVerify,
 						Protocol:   protocol,
 						Log:        log,
 						Timeout:    timeout,
@@ -271,6 +286,7 @@ func main() {
 					&cli.BoolFlag{Name: "debug", Aliases: []string{"d"}, Value: false, Usage: "enable debug output"},
 					&cli.StringFlag{Name: "turnserver", Aliases: []string{"s"}, Required: true, Usage: "turn server to connect to in the format host:port"},
 					&cli.BoolFlag{Name: "tls", Value: false, Usage: "Use TLS/DTLS on connecting to the STUN or TURN server"},
+					&cli.BoolFlag{Name: "tlsverify", Value: false, Usage: "Verify the server's certificate"},
 					&cli.StringFlag{Name: "protocol", Value: "udp", Usage: "protocol to use when connecting to the TURN server. Supported values: tcp and udp"},
 					&cli.DurationFlag{Name: "timeout", Value: 1 * time.Second, Usage: "connect timeout to turn server"},
 					&cli.StringFlag{Name: "username", Aliases: []string{"u"}, Required: true, Usage: "username for the turn server"},
@@ -287,6 +303,7 @@ func main() {
 				Action: func(c *cli.Context) error {
 					turnServer := c.String("turnserver")
 					useTLS := c.Bool("tls")
+					tlsVerify := c.Bool("tlsverify")
 					protocol := c.String("protocol")
 					timeout := c.Duration("timeout")
 					username := c.String("username")
@@ -296,6 +313,7 @@ func main() {
 					return cmd.Socks(cmd.SocksOpts{
 						TurnServer: turnServer,
 						UseTLS:     useTLS,
+						TlsVerify:  tlsVerify,
 						Protocol:   protocol,
 						Log:        log,
 						Timeout:    timeout,
@@ -314,6 +332,7 @@ func main() {
 					&cli.BoolFlag{Name: "debug", Aliases: []string{"d"}, Value: false, Usage: "enable debug output"},
 					&cli.StringFlag{Name: "turnserver", Aliases: []string{"s"}, Required: true, Usage: "turn server to connect to in the format host:port"},
 					&cli.BoolFlag{Name: "tls", Value: false, Usage: "Use TLS/DTLS on connecting to the STUN or TURN server"},
+					&cli.BoolFlag{Name: "tlsverify", Value: false, Usage: "Verify the server's certificate"},
 					&cli.StringFlag{Name: "protocol", Value: "udp", Usage: "protocol to use when connecting to the TURN server. Supported values: tcp and udp"},
 					&cli.DurationFlag{Name: "timeout", Value: 1 * time.Second, Usage: "connect timeout to turn server"},
 					&cli.StringFlag{Name: "username", Aliases: []string{"u"}, Required: true, Usage: "username for the turn server"},
@@ -330,6 +349,7 @@ func main() {
 				Action: func(c *cli.Context) error {
 					turnServer := c.String("turnserver")
 					useTLS := c.Bool("tls")
+					tlsVerify := c.Bool("tlsverify")
 					protocol := c.String("protocol")
 					timeout := c.Duration("timeout")
 					username := c.String("username")
@@ -343,6 +363,7 @@ func main() {
 					return cmd.TCPScanner(cmd.TCPScannerOpts{
 						TurnServer: turnServer,
 						UseTLS:     useTLS,
+						TlsVerify:  tlsVerify,
 						Protocol:   protocol,
 						Log:        log,
 						Timeout:    timeout,
@@ -362,6 +383,7 @@ func main() {
 					&cli.BoolFlag{Name: "debug", Aliases: []string{"d"}, Value: false, Usage: "enable debug output"},
 					&cli.StringFlag{Name: "turnserver", Aliases: []string{"s"}, Required: true, Usage: "turn server to connect to in the format host:port"},
 					&cli.BoolFlag{Name: "tls", Value: false, Usage: "Use TLS/DTLS on connecting to the STUN or TURN server"},
+					&cli.BoolFlag{Name: "tlsverify", Value: false, Usage: "Verify the server's certificate"},
 					&cli.StringFlag{Name: "protocol", Value: "udp", Usage: "protocol to use when connecting to the TURN server. Supported values: tcp and udp"},
 					&cli.DurationFlag{Name: "timeout", Value: 1 * time.Second, Usage: "connect timeout to turn server"},
 					&cli.StringFlag{Name: "username", Aliases: []string{"u"}, Required: true, Usage: "username for the turn server"},
@@ -379,6 +401,7 @@ func main() {
 				Action: func(c *cli.Context) error {
 					turnServer := c.String("turnserver")
 					useTLS := c.Bool("tls")
+					tlsVerify := c.Bool("tlsverify")
 					protocol := c.String("protocol")
 					timeout := c.Duration("timeout")
 					username := c.String("username")
@@ -389,6 +412,7 @@ func main() {
 					return cmd.UDPScanner(cmd.UDPScannerOpts{
 						TurnServer:      turnServer,
 						UseTLS:          useTLS,
+						TlsVerify:       tlsVerify,
 						Protocol:        protocol,
 						Log:             log,
 						Timeout:         timeout,

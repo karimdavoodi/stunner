@@ -17,6 +17,7 @@ type BruteforceOpts struct {
 	Username   string
 	Passfile   string
 	UseTLS     bool
+	TlsVerify  bool
 	Timeout    time.Duration
 	Log        *logrus.Logger
 }
@@ -68,7 +69,7 @@ func BruteForce(opts BruteforceOpts) error {
 }
 
 func testPassword(opts BruteforceOpts, password string) error {
-	remote, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout)
+	remote, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout)
 	if err != nil {
 		return err
 	}

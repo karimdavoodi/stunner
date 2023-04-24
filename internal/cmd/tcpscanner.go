@@ -22,6 +22,7 @@ type TCPScannerOpts struct {
 	Username   string
 	Password   string
 	UseTLS     bool
+	TlsVerify  bool
 	Timeout    time.Duration
 	Log        *logrus.Logger
 	Ports      []string
@@ -89,7 +90,7 @@ func TCPScanner(opts TCPScannerOpts) error {
 }
 
 func httpScan(opts TCPScannerOpts, ip netip.Addr, port uint16) error {
-	controlConnection, dataConnection, err := internal.SetupTurnTCPConnection(opts.Log, opts.TurnServer, opts.UseTLS, opts.Timeout, ip, port, opts.Username, opts.Password)
+	controlConnection, dataConnection, err := internal.SetupTurnTCPConnection(opts.Log, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout, ip, port, opts.Username, opts.Password)
 	if err != nil {
 		return err
 	}

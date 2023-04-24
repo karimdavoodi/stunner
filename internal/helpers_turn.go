@@ -127,8 +127,8 @@ func ConvertXORAddr(input []byte, transactionID string) (string, uint16, error) 
 //	CreatePermission
 //
 // it returns the connection, the realm, the nonce and an error
-func SetupTurnConnection(logger DebugLogger, connectProtocol string, turnServer string, useTLS bool, timeout time.Duration, targetHost netip.Addr, targetPort uint16, username, password string) (net.Conn, string, string, error) {
-	remote, err := Connect(connectProtocol, turnServer, useTLS, timeout)
+func SetupTurnConnection(logger DebugLogger, connectProtocol string, turnServer string, useTLS bool, tlsVerify bool, timeout time.Duration, targetHost netip.Addr, targetPort uint16, username, password string) (net.Conn, string, string, error) {
+	remote, err := Connect(connectProtocol, turnServer, useTLS, tlsVerify, timeout)
 	if err != nil {
 		return nil, "", "", err
 	}

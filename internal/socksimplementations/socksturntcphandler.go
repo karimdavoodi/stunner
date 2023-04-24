@@ -24,6 +24,7 @@ type SocksTurnTCPHandler struct {
 	Server                 string
 	Timeout                time.Duration
 	UseTLS                 bool
+	TlsVerify              bool
 	DropNonPrivateRequests bool
 	Log                    *logrus.Logger
 }
@@ -57,7 +58,7 @@ func (s *SocksTurnTCPHandler) PreHandler(request socks.Request) (io.ReadWriteClo
 		return nil, &socks.Error{Reason: socks.RequestReplyHostUnreachable, Err: fmt.Errorf("dropping non private connection to %s:%d", target.String(), request.DestinationPort)}
 	}
 
-	controlConnection, dataConnection, err := internal.SetupTurnTCPConnection(s.Log, s.Server, s.UseTLS, s.Timeout, target, request.DestinationPort, s.TURNUsername, s.TURNPassword)
+	controlConnection, dataConnection, err := internal.SetupTurnTCPConnection(s.Log, s.Server, s.UseTLS, s.TlsVerify, s.Timeout, target, request.DestinationPort, s.TURNUsername, s.TURNPassword)
 	if err != nil {
 		return nil, &socks.Error{Reason: socks.RequestReplyHostUnreachable, Err: err}
 	}

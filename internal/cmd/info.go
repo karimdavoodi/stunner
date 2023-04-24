@@ -13,6 +13,7 @@ import (
 type InfoOpts struct {
 	TurnServer string
 	UseTLS     bool
+	TlsVerify  bool
 	Protocol   string
 	Timeout    time.Duration
 	Log        *logrus.Logger
@@ -47,6 +48,7 @@ func Info(opts InfoOpts) error {
 		opts.Log.Info("this server supports the STUN protocol")
 		printAttributes(opts, attr)
 	}
+	opts.Log.Info("opts %w", opts.TlsVerify)
 
 	if attr, err := testTurn(opts, internal.RequestedTransportUDP); err != nil {
 		opts.Log.Debugf("TURN UDP error: %v", err)
@@ -68,7 +70,7 @@ func Info(opts InfoOpts) error {
 }
 
 func testStun(opts InfoOpts) ([]internal.Attribute, error) {
-	conn, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout)
+	conn, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +89,7 @@ func testStun(opts InfoOpts) ([]internal.Attribute, error) {
 }
 
 func testTurn(opts InfoOpts, proto internal.RequestedTransport) ([]internal.Attribute, error) {
-	conn, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout)
+	conn, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout)
 	if err != nil {
 		return nil, err
 	}

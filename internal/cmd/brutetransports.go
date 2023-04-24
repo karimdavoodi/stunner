@@ -15,6 +15,7 @@ type BruteTransportOpts struct {
 	Username   string
 	Password   string
 	UseTLS     bool
+	TlsVerify  bool
 	Timeout    time.Duration
 	Log        *logrus.Logger
 }
@@ -48,7 +49,7 @@ func BruteTransports(opts BruteTransportOpts) error {
 	}
 
 	for i := 0; i <= 255; i++ {
-		conn, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.Timeout)
+		conn, err := internal.Connect(opts.Protocol, opts.TurnServer, opts.UseTLS, opts.TlsVerify, opts.Timeout)
 		if err != nil {
 			return err
 		}
